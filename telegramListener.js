@@ -7,7 +7,7 @@ const fs = require("fs");
 
 async function telegramListener() {
   if (!fs.existsSync(sessionFilePath)) {
-    await client.start({
+    await telegramClient.start({
       phoneNumber: async () =>
         await input.text("Enter your phone number (+90...): "),
       password: async () =>
