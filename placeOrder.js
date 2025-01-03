@@ -148,33 +148,33 @@ async function placeOrder(signal) {
       );
     }
 
-    const stopLossPrice =
-      orderSide === "BUY"
-        ? (symbolPrice * LONG_STOP_LOSS).toFixed(4)
-        : (symbolPrice * SHORT_STOP_LOSS).toFixed(4);
+    // const stopLossPrice =
+    //   orderSide === "BUY"
+    //     ? (symbolPrice * LONG_STOP_LOSS).toFixed(4)
+    //     : (symbolPrice * SHORT_STOP_LOSS).toFixed(4);
 
-    // Create Stop Loss order
-    const stopLossParams = {
-      symbol: signal.symbol,
-      side: orderSide === "BUY" ? "SELL" : "BUY",
-      type: "STOP_MARKET",
-      quantity: calculatedQuantity,
-      stopPrice: stopLossPrice,
-      reduceOnly: true,
-    };
+    // // Create Stop Loss order
+    // const stopLossParams = {
+    //   symbol: signal.symbol,
+    //   side: orderSide === "BUY" ? "SELL" : "BUY",
+    //   type: "STOP_MARKET",
+    //   quantity: calculatedQuantity,
+    //   stopPrice: stopLossPrice,
+    //   reduceOnly: true,
+    // };
 
-    try {
-      const stopLossResponse = await binanceClient.futuresOrder(stopLossParams);
-      if (!stopLossResponse || stopLossResponse.status !== "NEW") {
-        console.log(`Stop Loss rejected: ${stopLossResponse.msg}`);
-      } else {
-        console.log(`Stop Loss set for ${signal.symbol} at ${stopLossPrice}`);
-      }
-    } catch (error) {
-      console.log(
-        `An error occurred while placing the stop loss order: ${error.message}, ${error.stack}`
-      );
-    }
+    // try {
+    //   const stopLossResponse = await binanceClient.futuresOrder(stopLossParams);
+    //   if (!stopLossResponse || stopLossResponse.status !== "NEW") {
+    //     console.log(`Stop Loss rejected: ${stopLossResponse.msg}`);
+    //   } else {
+    //     console.log(`Stop Loss set for ${signal.symbol} at ${stopLossPrice}`);
+    //   }
+    // } catch (error) {
+    //   console.log(
+    //     `An error occurred while placing the stop loss order: ${error.message}, ${error.stack}`
+    //   );
+    // }
   } catch (error) {
     console.log(
       `An error occurred while placing the order: ${error.message}, ${error.stack}`
