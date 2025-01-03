@@ -2,10 +2,12 @@ const express = require("express");
 const telegramListener = require("./telegramListener");
 const parseSignal = require("./parseSignal");
 const placeOrder = require("./placeOrder");
+const bodyParser = require("body-parser");
 
 telegramListener();
 const app = express();
 app.use(express.json());
+app.use(bodyParser.text());
 
 app.post("/webhook", async (req, res) => {
   const signal = parseSignal(req.body);
