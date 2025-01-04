@@ -31,16 +31,16 @@ app.listen(PORT, () => {
 
 // const signal = parseSignal(
 //   `
-// #IOTA/USDT (Short📉, x20) 🔥
+//   #XRP/USDT (Long📉, x20) 🔥
 
-// Entry - 0.3572
-// Take-Profit:
+//   Entry - 2.572
+//   Take-Profit:
 
-// 🥉 0.3501 (40% of profit)
-// 🥈 0.3465 (60% of profit)
-// 🥇 0.3429 (80% of profit)
-// 🚀 0.3393 (100% of profit)
-//   `
+//   🥉 2.6501 (40% of profit)
+//   🥈 2.7465 (60% of profit)
+//   🥇 2.8429 (80% of profit)
+//   🚀 2.9393 (100% of profit)
+//     `
 // );
 
 // if (signal) {
