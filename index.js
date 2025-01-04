@@ -21,7 +21,7 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send(`BINANCE TELEGRAM TRADING BOT IS RUNNING`);
+  res.status(200).send(telegramListener());
 });
 
 const PORT = process.env.PORT || 3000;

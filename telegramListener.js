@@ -2,24 +2,32 @@ const { NewMessage } = require("telegram/events");
 const parseSignal = require("./parseSignal");
 const input = require("input");
 const { telegramClient, sessionFilePath } = require("./config");
-const channelId = BigInt("1174005146");
+const channelId = BigInt("1235659304");
 const fs = require("fs");
 
 async function telegramListener() {
-  if (!fs.existsSync(sessionFilePath)) {
-    await telegramClient.start({
-      phoneNumber: async () =>
-        await input.text("Enter your phone number (+90...): "),
-      password: async () =>
-        await input.text("Two-step verification password (if any): "),
-      phoneCode: async () =>
-        await input.text("Enter the Telegram verification code: "),
-      onError: (err) => console.log("An error occurred:", err),
-    });
+  let status = "";
+  try {
+    if (!fs.existsSync(sessionFilePath)) {
+      const telegramStart = await telegramClient.start({
+        phoneNumber: async () =>
+          await input.text("Enter your phone number (+90...): "),
+        password: async () =>
+          await input.text("Two-step verification password (if any): "),
+        phoneCode: async () =>
+          await input.text("Enter the Telegram verification code: "),
+        onError: (err) => console.log("An error occurred:", err),
+      });
 
-    fs.writeFileSync(sessionFilePath, telegramClient.session.save());
-  } else {
-    await telegramClient.connect();
+      fs.writeFileSync(sessionFilePath, telegramClient.session.save());
+      status = telegramStart;
+    } else {
+      const telegramConnect = await telegramClient.connect();
+      status = telegramConnect;
+    }
+  } catch (error) {
+    status = error.message;
+    return `An error occurred while connecting to Telegram: ${error.message}`;
   }
 
   // Handling messages from Telegram
@@ -37,7 +45,7 @@ async function telegramListener() {
         }
       }
     } catch (error) {
-      console.error("An error occurred while checking messages:", error);
+      status = `An error occurred while checking messages: ${error.message}`;
       return `An error occurred while checking messages: ${error.message}`;
     }
   }, new NewMessage({ incoming: true }));
