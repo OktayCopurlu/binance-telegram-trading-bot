@@ -20,13 +20,13 @@ async function telegramListener() {
       });
 
       fs.writeFileSync(sessionFilePath, telegramClient.session.save());
-      status = telegramStart;
+      status = `telegram starting${telegramStart}`;
     } else {
       const telegramConnect = await telegramClient.connect();
-      status = telegramConnect;
+      status = `telegram connection${telegramConnect}`;
     }
   } catch (error) {
-    status = error.message;
+    status = `An error occurred while connecting to Telegram: ${error.message}`;
     return `An error occurred while connecting to Telegram: ${error.message}`;
   }
 
