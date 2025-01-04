@@ -130,7 +130,7 @@ async function placeOrder(signal) {
           symbol: signal.symbol,
           side: orderSide === "BUY" ? "SELL" : "BUY",
           type: "TAKE_PROFIT_MARKET",
-          quantity: calculatedQuantity,
+          quantity: (calculatedQuantity / 4).toFixed(8),
           stopPrice: tp.price,
           reduceOnly: true,
         };
