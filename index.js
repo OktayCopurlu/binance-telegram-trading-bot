@@ -4,7 +4,7 @@ const parseSignal = require("./parseSignal");
 const placeOrder = require("./placeOrder");
 const bodyParser = require("body-parser");
 
-telegramListener();
+const telegram = telegramListener();
 const app = express();
 app.use(express.json());
 app.use(bodyParser.text());
@@ -21,7 +21,7 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send(telegramListener());
+  res.status(200).send(telegram);
 });
 
 const PORT = process.env.PORT || 3000;
