@@ -49,6 +49,8 @@ async function telegramListener() {
       return `An error occurred while checking messages: ${error.message}`;
     }
   }, new NewMessage({ incoming: true }));
+
+  return status;
 }
 
 module.exports = telegramListener;
