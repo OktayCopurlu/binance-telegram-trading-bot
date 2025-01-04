@@ -29,20 +29,20 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-const signal = parseSignal(
-  `
-#IOTA/USDT (Short📉, x20) 🔥
+// const signal = parseSignal(
+//   `
+// #IOTA/USDT (Short📉, x20) 🔥
 
-Entry - 0.3572
-Take-Profit:
+// Entry - 0.3572
+// Take-Profit:
 
-🥉 0.3501 (40% of profit)
-🥈 0.3465 (60% of profit)
-🥇 0.3429 (80% of profit)
-🚀 0.3393 (100% of profit)
-  `
-);
+// 🥉 0.3501 (40% of profit)
+// 🥈 0.3465 (60% of profit)
+// 🥇 0.3429 (80% of profit)
+// 🚀 0.3393 (100% of profit)
+//   `
+// );
 
-if (signal) {
-  placeOrder(signal);
-}
+// if (signal) {
+//   placeOrder(signal);
+// }
