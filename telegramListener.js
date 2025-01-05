@@ -4,12 +4,16 @@ const input = require("input");
 const { telegramClient, sessionFilePath } = require("./config");
 const channelId = BigInt("1235659304");
 const fs = require("fs");
+require("dotenv").config();
 
 async function telegramListener() {
-  let status = "";
+  const telegramSession = process.env.TELEGRAM_SESSION;
   try {
-    if (!fs.existsSync(sessionFilePath)) {
-      const telegramStart = await telegramClient.start({
+    if (telegramSession) {
+      telegramClient.session.load(telegramSession);
+      await telegramClient.connect();
+    } else if (!fs.existsSync(sessionFilePath)) {
+      await telegramClient.start({
         phoneNumber: async () =>
           await input.text("Enter your phone number (+90...): "),
         password: async () =>
@@ -20,13 +24,10 @@ async function telegramListener() {
       });
 
       fs.writeFileSync(sessionFilePath, telegramClient.session.save());
-      status = `telegram starting${telegramStart}`;
     } else {
-      const telegramConnect = await telegramClient.connect();
-      status = `telegram connection${telegramConnect}`;
+      await telegramClient.connect();
     }
   } catch (error) {
-    status = `An error occurred while connecting to Telegram: ${error.message}`;
     return `An error occurred while connecting to Telegram: ${error.message}`;
   }
 
@@ -45,12 +46,9 @@ async function telegramListener() {
         }
       }
     } catch (error) {
-      status = `An error occurred while checking messages: ${error.message}`;
       return `An error occurred while checking messages: ${error.message}`;
     }
   }, new NewMessage({ incoming: true }));
-
-  return status;
 }
 
 module.exports = telegramListener;

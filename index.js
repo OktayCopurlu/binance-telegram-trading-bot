@@ -4,7 +4,7 @@ const parseSignal = require("./parseSignal");
 const placeOrder = require("./placeOrder");
 const bodyParser = require("body-parser");
 
-const telegram = telegramListener();
+telegramListener();
 const app = express();
 app.use(express.json());
 app.use(bodyParser.text());
@@ -21,7 +21,7 @@ app.post("/webhook", async (req, res) => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send(telegram);
+  res.status(200).send("Server is running.");
 });
 
 const PORT = process.env.PORT || 3000;
@@ -31,7 +31,7 @@ app.listen(PORT, () => {
 
 // const signal = parseSignal(
 //   `
-//   #XRP/USDT (Long📉, x20) 🔥
+//   #XRP/USDT (Short📉, x20) 🔥
 
 //   Entry - 2.572
 //   Take-Profit:
