@@ -4,7 +4,6 @@ const parseSignal = require("./parseSignal");
 const placeOrder = require("./placeOrder");
 const bodyParser = require("body-parser");
 
-telegramListener();
 const app = express();
 app.use(express.json());
 app.use(bodyParser.text());
@@ -27,6 +26,7 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  telegramListener();
 });
 
 // const signal = parseSignal(
