@@ -28,27 +28,59 @@ async function telegramListener() {
       await telegramClient.connect();
     }
   } catch (error) {
-    return `An error occurred while connecting to Telegram: ${error.message}`;
+    console.log(
+      `An error occurred while connecting to Telegram: ${error.message}`
+    );
+    return;
   }
 
   // Handling messages from Telegram
   telegramClient.addEventHandler((event) => {
     try {
       const message = event.message;
-      const eventChannelId = BigInt(message.peerId.channelId.toString());
-      // Correct comparison using BigInt
-      if (message && eventChannelId === channelId) {
-        const messageText = message.message;
-        const signal = parseSignal(messageText);
+      console.log("Received event: ", event);
+      if (message) {
+        console.log("Received message: ", message);
+        const eventChannelId = BigInt(message.peerId.channelId.toString());
+        console.log("Event Channel ID: ", eventChannelId);
+        // Correct comparison using BigInt
+        if (eventChannelId === channelId) {
+          console.log(
+            "Message received from target channel: ",
+            message.message
+          );
+          const messageText = message.message;
+          const signal = parseSignal(messageText);
+          console.log("Parsed Signal: ", signal);
 
-        if (signal) {
-          placeOrder(signal);
+          if (signal) {
+            placeOrder(signal);
+          }
+        } else {
+          console.log("Message received from a different channel.");
         }
+      } else {
+        console.log("No message found in event.");
       }
     } catch (error) {
-      return `An error occurred while checking messages: ${error.message}`;
+      console.log(
+        `An error occurred while checking messages: ${error.message}`
+      );
     }
   }, new NewMessage({ incoming: true }));
+
+  // Reconnect on connection close
+  telegramClient.on("disconnected", async () => {
+    console.log("Disconnected from Telegram. Attempting to reconnect...");
+    try {
+      await telegramClient.connect();
+      console.log("Reconnected to Telegram.");
+    } catch (error) {
+      console.log(
+        `An error occurred while reconnecting to Telegram: ${error.message}`
+      );
+    }
+  });
 }
 
 module.exports = telegramListener;
