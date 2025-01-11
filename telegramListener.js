@@ -12,6 +12,7 @@ async function telegramListener() {
     if (telegramSession) {
       telegramClient.session.load(telegramSession);
       await telegramClient.connect();
+      console.log("Telegram session loaded and connected.");
     } else if (!fs.existsSync(sessionFilePath)) {
       await telegramClient.start({
         phoneNumber: async () =>
@@ -24,8 +25,10 @@ async function telegramListener() {
       });
 
       fs.writeFileSync(sessionFilePath, telegramClient.session.save());
+      console.log("Telegram session started and saved.");
     } else {
       await telegramClient.connect();
+      console.log("Telegram session file found and connected.");
     }
   } catch (error) {
     console.log(
@@ -68,6 +71,8 @@ async function telegramListener() {
       );
     }
   }, new NewMessage({ incoming: true }));
+
+  console.log("Event handler added for incoming messages.");
 
   // Reconnect on connection close
   telegramClient.on("disconnected", async () => {
