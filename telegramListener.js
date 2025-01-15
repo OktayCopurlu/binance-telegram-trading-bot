@@ -1,5 +1,6 @@
 const { NewMessage } = require("telegram/events");
 const parseSignal = require("./parseSignal");
+const placeOrder = require("./placeOrder");
 const input = require("input");
 const { telegramClient, sessionFilePath } = require("./config");
 const channelId = BigInt("1235659304");
@@ -41,11 +42,8 @@ async function telegramListener() {
   telegramClient.addEventHandler((event) => {
     try {
       const message = event.message;
-      console.log("Received event: ", event);
       if (message) {
-        console.log("Received message: ", message);
         const eventChannelId = BigInt(message.peerId.channelId.toString());
-        console.log("Event Channel ID: ", eventChannelId);
         // Correct comparison using BigInt
         if (eventChannelId === channelId) {
           console.log(
